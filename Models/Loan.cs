@@ -20,7 +20,7 @@ namespace librex3.Models
         }
         public bool IsReturned { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal PenaltyFee { get; set; } // Opłata za przeterminowanie
+        public decimal PenaltyFee { get; set; } 
         public bool IsBorrowed { get; set; }
 
     }

@@ -16,10 +16,9 @@ public class ReservationsController : Controller
 
     public async Task<IActionResult> Index()
     {
-        // Pobierz identyfikator zalogowanego użytkownika
+      
         var userId = User.Identity.Name;
 
-        // Pobierz rezerwacje przypisane do zalogowanego użytkownika
         var loans = await _context.Loans
             .Include(l => l.Book)
             .Where(l => l.User.UserName == userId)

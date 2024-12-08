@@ -95,7 +95,7 @@ namespace librex3.Controllers
                 return RedirectToAction("Index");
             }
 
-            reservation.Book.IsBlocked = false; // Unblock the book
+            reservation.Book.IsBlocked = false; 
             _context.Loans.Remove(reservation);
             await _context.SaveChangesAsync();
 
@@ -109,16 +109,16 @@ namespace librex3.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(book); // Return the view with the model if validation fails
+                return View(book); 
             }
 
-            book.IsBlocked = false; // Initialize as not reserved
-            book.IsBorrowed = false; // Initialize as not borrowed
+            book.IsBlocked = false; 
+            book.IsBorrowed = false; 
 
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index)); // Ensure the method always returns a value
+            return RedirectToAction(nameof(Index)); 
         }
 
     }

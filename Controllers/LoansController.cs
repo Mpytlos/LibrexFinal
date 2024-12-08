@@ -23,11 +23,11 @@ namespace librex3.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var isAdmin = User.IsInRole("Admin");
 
-            // Get loans for admin or specific user
+          
             var loansQuery = _context.Loans
                 .Include(l => l.Book)
                 .Include(l => l.User)
-                .Where(l => l.LoanDate != null && !l.IsReturned); // Only loans
+                .Where(l => l.LoanDate != null && !l.IsReturned); 
 
             if (!isAdmin)
             {
@@ -71,7 +71,7 @@ namespace librex3.Controllers
                 return RedirectToAction("Index");
             }
 
-            // Check if the user has already reserved this book
+           
             var existingReservation = await _context.Loans
                 .FirstOrDefaultAsync(l => l.BookId == bookId && l.UserId == userId && l.LoanDate == null);
 
@@ -81,7 +81,7 @@ namespace librex3.Controllers
                 return RedirectToAction("Index");
             }
 
-            // Create reservation
+      
             var loan = new Loan
             {
                 BookId = bookId,
@@ -132,7 +132,7 @@ namespace librex3.Controllers
         public async Task<IActionResult> Borrow()
         {
             var availableBooks = await _context.Books
-                .Where(b => !b.IsBorrowed) // Only books available for borrowing
+                .Where(b => !b.IsBorrowed) 
                 .Select(b => new BookBorrowViewModel
                 {
                     BookId = b.Id,
@@ -198,7 +198,7 @@ namespace librex3.Controllers
             };
 
             book.IsBorrowed = true;
-            book.IsBlocked = false; // Cancel reservation
+            book.IsBlocked = false; 
             _context.Loans.Add(loan);
             await _context.SaveChangesAsync();
 

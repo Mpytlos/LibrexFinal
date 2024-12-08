@@ -14,12 +14,10 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddRoles<IdentityRole>() // Dodanie wsparcia dla r�l
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-// Dodanie MVC z widokami Razor
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// �rodowisko middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -31,35 +29,34 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); // Middleware do obs�ugi uwierzytelniania
-app.UseAuthorization();  // Middleware do obs�ugi autoryzacji
+app.UseAuthentication(); 
+app.UseAuthorization();  
 
-// Definiowanie domy�lnego routingu
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages(); // Obs�uga obszar�w Razor Pages (np. logowanie/rejestrowanie)
+app.MapRazorPages(); 
 
 
-// Tworzenie r�l i domy�lnego administratora
+
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-    // Tworzenie roli Admin
     var adminRole = "Admin";
     if (!await roleManager.RoleExistsAsync(adminRole))
     {
         await roleManager.CreateAsync(new IdentityRole(adminRole));
     }
 
-    // Opcjonalne: Tworzenie domy�lnego konta administratora
+
     var adminEmail = "admin@librex.com";
     var adminPassword = "Admin123!";
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
-    if (adminUser == null) // Sprawdzenie, czy administrator istnieje
+    if (adminUser == null) 
     {
         adminUser = new ApplicationUser
         {
