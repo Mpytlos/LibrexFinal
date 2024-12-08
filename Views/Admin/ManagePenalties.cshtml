@@ -1,0 +1,35 @@
+﻿<h1>Zarządzaj karami</h1>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Użytkownik</th>
+            <th>Tytuł książki</th>
+            <th>Data zwrotu</th>
+            <th>Kara</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var loan in Model)
+        {
+            <tr>
+                <td>@loan.User.FullName</td>
+                <td>@loan.Book.Title</td>
+                <td>@loan.DueDate.ToShortDateString()</td>
+                <td>@loan.PenaltyFee.ToString("C")</td>
+                <td>
+                    <form asp-action="CancelPenalty" method="post">
+                        <input type="hidden" name="id" value="@loan.Id" />
+                        <button type="submit" class="btn btn-warning">Anuluj karę</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

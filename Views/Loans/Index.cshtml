@@ -1,0 +1,63 @@
+﻿@model IEnumerable<LoanViewModel>
+
+<h1>Wypożyczenia</h1>
+
+@if ((bool)ViewBag.IsAdmin)
+{
+    <a class="btn btn-primary mb-3" asp-action="Borrow" asp-controller="Loans">Wypożycz książkę</a>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tytuł książki</th>
+            <th>Autor</th>
+            <th>Data wypożyczenia</th>
+            <th>Termin zwrotu</th>
+            @if ((bool)ViewBag.IsAdmin)
+            {
+                <th>Użytkownik</th>
+                <th>Opcje</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var loan in Model)
+        {
+            <tr>
+                <td>@loan.BookTitle</td>
+                <td>@loan.BookAuthor</td>
+                <td>@loan.LoanDate.ToShortDateString()</td>
+                <td>@loan.DueDate.ToShortDateString()</td>
+                @if ((bool)ViewBag.IsAdmin)
+                {
+                    <td>@loan.UserEmail</td>
+                    <td>
+                        @if (!loan.IsReturned)
+                        {
+                            <form method="post" asp-action="ReturnBook" asp-controller="Loans">
+                                <input type="hidden" name="id" value="@loan.LoanId" />
+                                <button type="submit" class="btn btn-success btn-sm">Oddano</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span>Oddano</span>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!(bool)ViewBag.IsAdmin)
+{
+    <h2>Twoje wypożyczenia</h2>
+    <p>Tu znajdują się wyłącznie Twoje aktualne wypożyczenia książek.</p>
+}
+else
+{
+    <h2>Wszystkie wypożyczenia</h2>
+    <p>Administrator ma dostęp do listy wszystkich wypożyczeń.</p>
+}

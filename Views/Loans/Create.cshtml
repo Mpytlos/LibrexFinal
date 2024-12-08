@@ -1,0 +1,21 @@
+﻿<form method="post" asp-action="Create" asp-controller="Loans">
+    <div class="form-group">
+        <label for="bookId">Wybierz książkę:</label>
+        <select id="bookId" name="bookId" class="form-control">
+            @foreach (var book in ViewBag.Books)
+            {
+                <option value="@book.Id">@book.Title</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="userId">Wybierz użytkownika:</label>
+        <select id="userId" name="userId" class="form-control">
+            @foreach (var user in ViewBag.Users)
+            {
+                <option value="@user.Id">@user.Email</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Wypożycz</button>
+</form>

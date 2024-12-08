@@ -1,0 +1,25 @@
+﻿@model BorrowFormViewModel
+
+<h1>Wypożycz książkę</h1>
+
+<form method="post" asp-action="Borrow" asp-controller="Loans">
+    <div class="form-group">
+        <label for="bookId">Wybierz książkę</label>
+        <select id="bookId" name="bookId" class="form-control">
+            @foreach (var book in Model.AvailableBooks)
+            {
+                <option value="@book.BookId">@book.Title - @book.Author</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="userId">Wybierz użytkownika</label>
+        <select id="userId" name="userId" class="form-control">
+            @foreach (var user in Model.Users)
+            {
+                <option value="@user.UserId">@user.Email</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Wypożycz</button>
+</form>

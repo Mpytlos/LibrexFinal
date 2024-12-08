@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Loan>
+
+<h1>Twoje rezerwacje</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tytuł książki</th>
+            <th>Autor</th>
+            <th>Data zwrotu</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var loan in Model)
+        {
+            <tr>
+                <td>@loan.Book.Title</td>
+                <td>@loan.Book.Author</td>
+                <td>@loan.DueDate.ToShortDateString()</td>
+            </tr>
+        }
+        @section Scripts {
+            <!-- Jeśli wymagane, możesz tutaj umieścić skrypty JS -->
+        }
+    </tbody>
+</table>

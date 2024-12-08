@@ -1,0 +1,34 @@
+﻿@model IEnumerable<LoanViewModel>
+
+<h1>Przeterminowane Wypożyczenia</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tytuł książki</th>
+            <th>Autor</th>
+            <th>Użytkownik</th>
+            <th>Termin zwrotu</th>
+            <th>Przeterminowana od</th>
+            <th>Opcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var loan in Model)
+        {
+            <tr>
+                <td>@loan.BookTitle</td>
+                <td>@loan.BookAuthor</td>
+                <td>@loan.UserEmail</td>
+                <td>@loan.DueDate.ToShortDateString()</td>
+                <td>@(DateTime.Now - loan.DueDate).Days dni</td>
+                <td>
+                    <form method="post" asp-action="ReturnBook" asp-controller="Loans">
+                        <input type="hidden" name="id" value="@loan.LoanId" />
+                        <button type="submit" class="btn btn-success">Oddano</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

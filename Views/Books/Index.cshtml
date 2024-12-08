@@ -1,0 +1,51 @@
+﻿@model IEnumerable<librex3.ViewModels.BookReservationViewModel>
+
+<h1>Lista książek</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tytuł</th>
+            <th>Autor</th>
+            <th>Gatunek</th>
+            <th>Status</th>
+            <th>Opcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Book.Title</td>
+                <td>@item.Book.Author</td>
+                <td>@item.Book.Genre</td>
+                <td>
+                    @if (item.IsReserved)
+                    {
+                        <span style="color: red;">Zarezerwowana</span>
+                    }
+                    else
+                    {
+                        <span style="color: green;">Dostępna</span>
+                    }
+                </td>
+                <td>
+                    @if (!item.IsReserved)
+                    {
+                        <form asp-action="Reserve" asp-controller="Books" method="post">
+                            <input type="hidden" name="id" value="@item.Book.Id" />
+                            <button type="submit" class="btn btn-primary">Zarezerwuj</button>
+                        </form>
+                    }
+                    else if (item.IsReservedByCurrentUser)
+                    {
+                        <form asp-action="CancelReservation" asp-controller="Books" method="post">
+                            <input type="hidden" name="id" value="@item.Book.Id" />
+                            <button type="submit" class="btn btn-danger">Anuluj rezerwację</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
