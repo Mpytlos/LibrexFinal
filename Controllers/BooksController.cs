@@ -35,7 +35,6 @@ namespace librex3.Controllers
         }
 
         [HttpPost]
-        [Route("Books/Reserve/{id:int}")]
         public async Task<IActionResult> Reserve(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
